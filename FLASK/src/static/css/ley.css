@@ -1,0 +1,45 @@
+.ley-info {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.ley-titulo {
+    font-size: 1.1rem; 
+    color: #007bff; 
+    margin-top: 0.5rem; 
+    display: flex;
+    align-items: center;
+    text-align: justify;
+}
+
+.ley-titulo::before {
+    content: "📘"; 
+    margin-right: 0.5rem; 
+}
+
+.ley-texto {
+    margin-bottom: 1rem; 
+    line-height: 1.4; 
+    align-items: justify;
+    text-align: justify;
+
+}
+
+.resultados-container {
+    max-height: 400px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    border-radius: 10px; 
+    background-color: #f9f9f9; 
+}
+.custom-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+.custom-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

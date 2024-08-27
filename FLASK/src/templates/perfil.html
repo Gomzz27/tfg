@@ -1,0 +1,65 @@
+{% extends './base.html' %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="perfil-container container mt-4">
+    <h2 class="mb-4">Perfil de Usuario</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Información Personal</h5>
+            <p class="card-text"><strong>Nombre de Usuario:</strong> {{ current_user.username }}</p>
+            <p class="card-text"><strong>Nombre Completo:</strong> {{ current_user.fullname }}</p>
+            <p class="card-text"><strong>Correo Electrónico:</strong> {{ current_user.email }}</p>
+            <a href="{{ url_for('editar_perfil') }}" class="btn btn-primary">Editar Información</a>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cambiarContraseñaModal">
+                Cambiar Contraseña
+            </button>
+        </div>
+    </div>
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+<br />
+{% for message in messages %}
+<div class="alert alert-primary alert-dismissible" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endwith %}
+</div>
+
+<!-- Modal para cambiar contraseña -->
+<div class="modal fade" id="cambiarContraseñaModal" tabindex="-1" aria-labelledby="cambiarContraseñaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cambiarContraseñaModalLabel">Cambiar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ url_for('cambiar_contraseña') }}">
+                    <div class="mb-3">
+                        <label for="old_password" class="form-label">Contraseña Actual</label>
+                        <input type="password" class="form-control" id="old_password" name="old_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirmar Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

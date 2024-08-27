@@ -1,0 +1,150 @@
+{% extends './base.html' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="my-4">Firmar Contrato</h1>
+    <p>Archivo: {{ filename }}  </p><!-- Línea de depuración -->
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    <br />
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% endwith %}
+
+    <div style="position: relative;">
+        <embed src="{{ url_for('uploaded_file', filename=filename) }}" width="600" height="800" type="application/pdf" id="pdf-viewer">
+        <div id="overlay" style="position: absolute; top: 0; left: 0; cursor: crosshair; display: none;"></div>
+    </div>
+
+    {% if session.get('otp_verified', False) %}
+    <button id="toggle-overlay" class="btn btn-primary mt-2">Seleccionar Área de Firma</button>
+    <!-- El formulario de firma solo aparece si el OTP ha sido verificado -->
+    <form method="POST" action="{{ url_for('guardar_contrato') }}">
+        <div class="mb-3">
+            <label for="signature" class="form-label">Firma del Cliente</label>
+            <canvas id="signature-pad" class="signature-pad" width=400 height=200 style="border: 2px solid #000;"></canvas>
+            <input type="hidden" id="signature" name="signature">
+            <input type="hidden" name="filename" value="{{ filename }}">
+            <input type="hidden" id="posX" name="posX">
+            <input type="hidden" id="posY" name="posY">
+            <input type="hidden" id="width" name="width">
+            <input type="hidden" id="height" name="height">
+            <button type="button" class="btn btn-secondary" id="clear-signature">Borrar Firma</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Contrato Firmado</button>
+    </form>
+    {% else %}
+    <p>Por favor, verifica tu OTP antes de firmar.</p>
+    <a href="{{ url_for('enviar_otp', filename=filename) }}" class="btn btn-primary">Enviar OTP</a>
+    <form method="POST" action="{{ url_for('verificar_otp') }}">
+        <div class="mb-3">
+            <label for="otp" class="form-label">Ingrese el OTP</label>
+            <input type="text" id="otp" name="otp" class="form-control" required>
+            <input type="hidden" name="filename" value="{{ filename }}">
+            <button type="submit" class="btn btn-primary mt-2">Verificar OTP</button>
+        </div>
+    </form>
+
+    {% endif %}
+
+ 
+    </div>
+
+<script src="
+https://cdn.jsdelivr.net/npm/signature_pad@5.0.2/dist/signature_pad.umd.min.js
+"></script>
+<script>
+    var signaturePadCanvas = document.getElementById('signature-pad');
+    var signaturePad = new SignaturePad(signaturePadCanvas);
+
+    document.getElementById('clear-signature').addEventListener('click', function() {
+        signaturePad.clear();
+    });
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('signature').value = signaturePad.toDataURL();
+    });
+
+    function adjustOverlay() {
+        var pdfViewer = document.getElementById('pdf-viewer');
+        var overlay = document.getElementById('overlay');
+        overlay.style.width = pdfViewer.clientWidth + 'px';
+        overlay.style.height = pdfViewer.clientHeight + 'px';
+        overlay.style.top = pdfViewer.offsetTop + 'px';
+        overlay.style.left = pdfViewer.offsetLeft + 'px';
+    }
+
+    window.addEventListener('load', adjustOverlay);
+    window.addEventListener('resize', adjustOverlay);
+
+    var startX, startY, endX, endY, isDrawing = false;
+
+    document.getElementById('toggle-overlay').addEventListener('click', function() {
+        var overlay = document.getElementById('overlay');
+        if (overlay.style.display === 'none') {
+            overlay.style.display = 'block';
+            this.textContent = 'Finalizar Selección';
+        } else {
+            overlay.style.display = 'none';
+            this.textContent = 'Seleccionar Área de Firma';
+        }
+    });
+
+    // Capturar la posición del clic en el overlay para dibujar el recuadro
+    document.getElementById('overlay').addEventListener('mousedown', function(event) {
+        var rect = this.getBoundingClientRect();
+        startX = event.clientX - rect.left;
+        startY = event.clientY - rect.top; // Coordenada y ajustada
+        isDrawing = true;
+
+        // Crear un nuevo div para el recuadro de selección
+        var selectionBox = document.createElement('div');
+        selectionBox.id = 'selection-box';
+        selectionBox.style.position = 'absolute';
+        selectionBox.style.border = '1px solid red';
+        selectionBox.style.background = 'rgba(255, 0, 0, 0.2)';
+        selectionBox.style.left = startX + 'px';
+        selectionBox.style.top = startY + 'px';
+        this.appendChild(selectionBox);
+    });
+
+    document.getElementById('overlay').addEventListener('mousemove', function(event) {
+        if (!isDrawing) return;
+
+        var rect = this.getBoundingClientRect();
+        endX = event.clientX - rect.left;
+        endY = event.clientY - rect.top; // Ajuste para la coordenada y
+
+        var selectionBox = document.getElementById('selection-box');
+        selectionBox.style.width = Math.abs(endX - startX) + 'px';
+        selectionBox.style.height = Math.abs(endY - startY) + 'px';
+        selectionBox.style.left = Math.min(startX, endX) + 'px';
+        selectionBox.style.top = Math.min(startY, endY) + 'px';
+    });
+
+    document.getElementById('overlay').addEventListener('mouseup', function(event) {
+        isDrawing = false;
+
+        var rect = this.getBoundingClientRect();
+        var width = Math.abs(endX - startX);
+        var height = Math.abs(endY - startY);
+        var posX = Math.min(startX, endX);
+        var posY = Math.min(startY, endY);
+
+        document.getElementById('posX').value = posX;
+        document.getElementById('posY').value = posY;
+        document.getElementById('width').value = width;
+        document.getElementById('height').value = height;
+
+        alert(`Firma colocada en: X: ${posX}, Y: ${posY}, Width: ${width}, Height: ${height}`);
+    });
+
+</script>
+{% endblock %}

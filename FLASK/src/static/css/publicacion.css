@@ -1,0 +1,27 @@
+.card {
+    margin-bottom: 20px;
+  }
+  .card-header {
+    font-weight: bold;
+  }
+  .response-form {
+    margin-top: 20px;
+  }
+  .response-item {
+    margin-bottom: 15px;
+  }
+  .toggle-btn {
+    margin-top: 10px;
+  }
+  .list-group-item {
+    background-color: #f8f9fa;
+  }
+  .list-group-item p {
+    margin-bottom: 5px;
+  }
+  .text-justify {
+    text-align: left;
+  }
+  .autor-justify {
+    text-align: right;
+  }

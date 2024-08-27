@@ -1,0 +1,23 @@
+{% extends './base.html' %} 
+<!-- esto quiere decir que reutilizamos la plantilla base.html -->
+<!-- los blocks son para contenido cambiante (jinja2) -->
+{% block customCSS %} 
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/foro.css')}}">
+{% endblock %}
+
+{% block body %}
+<h2>Mis Posts</h2>
+<main class="container">
+<ul class="list-group d-flex justify-content-between">
+  {% for publicacion in publicaciones %}
+  <li class="list-group-item d-flex justify-content-between">
+    <a href="{{ url_for('ver_publicacion', post_id=publicacion[0]) }}">
+      <h5>{{ publicacion[1] }}</h5>
+    </a>    <p class="mb-0 text-muted d-flex justify-content-between">{{ publicacion[2] }}</p>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+</main>
+
+{% endblock %}

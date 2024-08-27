@@ -1,0 +1,69 @@
+{% extends './base.html' %} 
+<!-- esto quiere decir que reutilizamos la plantilla base.html -->
+<!-- los blocks son para contenido cambiante (jinja2) -->
+
+{% block customCSS %} 
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/publicacion.css')}}">
+{% endblock %}
+
+{% block body %} 
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header">
+        {{ publicacion[1] }}
+        {% if current_user.is_admin %}
+        <form action="{{ url_for('eliminar_post', post_id=publicacion[0]) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+        </form>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <p class="card-text text-justify">{{ publicacion[2] }}</p>
+        <p class="text-muted autor-justify">por {{ publicacion[3] }} el {{ publicacion[4] }}</p>
+        <button class="btn btn-primary toggle-btn" id="mostrar-formulario-btn">Añadir respuesta</button>
+      </div>
+    </div>
+    
+    <!-- Formulario de nuevo comentario -->
+    <div class="card response-form" id="formulario-respuesta" style="display: none;">
+      <div class="card-body">
+        <form method="post" action="{{ url_for('ver_publicacion', post_id=publicacion[0]) }}">
+          <div class="form-group mb-3">
+            <label for="respuesta">Comentario</label>
+            <textarea class="form-control" id="respuesta" name="respuesta" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Lista de respuestas -->
+    <h2 class="mt-4">Respuestas</h2>
+    <ul class="list-group">
+      {% for respuesta in respuestas %}
+        <li class="list-group-item response-item text-justify">
+          <p>{{ respuesta[0] }}</p>
+          <p class="mb-0 text-muted autor-justify">por {{ respuesta[1] }} el {{ respuesta[2] }}</p>
+        </li>
+        {% if current_user.is_admin %}
+        <form action="{{ url_for('eliminar_respuesta', idResp=respuesta[3], post_id=publicacion[0]) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+        </form>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script>
+    document.getElementById('mostrar-formulario-btn').addEventListener('click', function() {
+      var formulario = document.getElementById('formulario-respuesta');
+      if (formulario.style.display === 'none' || formulario.style.display === '') {
+        formulario.style.display = 'block';
+      } else {
+        formulario.style.display = 'none';
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    {% endblock %}

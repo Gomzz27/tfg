@@ -1,0 +1,149 @@
+{% extends './base.html' %} 
+
+{% block body %}
+<div class="container mt-4">    
+    <!-- Introducción al proceso de contratación electrónica -->
+    <div class="mb-4">
+        <h2>Introducción al Proceso de Contratación Electrónica</h2>
+        
+        <!-- Sección interactiva con cards y modals -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">¿Qué es la Contratación Electrónica?</h5>
+                        <p class="card-text" style="text-align: justify;">
+                            La contratación electrónica permite realizar acuerdos de forma digital, <span data-bs-toggle="tooltip" data-bs-placement="top" title="Mayor rapidez, eficiencia y reducción de costes.">facilitando el proceso</span> desde la creación hasta la firma del contrato.
+                        </p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contratacionModal">Leer más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Importancia de la Firma Electrónica</h5>
+                        <p class="card-text" style="text-align: justify;">
+                            La firma electrónica es un método de autentificación que confirma la identidad del firmante de un documento. Garantiza que el documento no ha sido modificado después de la firma y tiene validez legal en la mayoría de las jurisdicciones.
+                        </p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#firmaModal">Leer más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Consideraciones al Firmar Electrónicamente</h5>
+                        <p class="card-text" style="text-align: justify;">
+                            Al firmar un contrato electrónicamente, debes tener en cuenta ciertos aspectos para asegurarte de que el proceso es seguro y legalmente válido.
+                        </p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#consideracionesModal">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Contratación Electrónica -->
+        <div class="modal fade" id="contratacionModal" tabindex="-1" aria-labelledby="contratacionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contratacionModalLabel">¿Qué es la Contratación Electrónica?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: justify;">
+                        <p>La contratación electrónica es un proceso digital que permite a las partes involucradas crear, revisar, y firmar contratos de manera remota, sin la necesidad de intercambiar documentos en papel. Este proceso es crucial en la era digital, donde la eficiencia y la velocidad son esenciales para las operaciones comerciales.</p>
+                        <p>El uso de la contratación electrónica no solo agiliza los procesos, sino que también reduce costos y aumenta la accesibilidad, permitiendo a las empresas operar sin fronteras geográficas.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Tipos de Firma Electrónica -->
+        <div class="modal fade" id="firmaModal" tabindex="-1" aria-labelledby="firmaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="firmaModalLabel">Tipos de Firma Electrónica</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: justify;">
+                        <h6>1. Firma Electrónica Simple</h6>
+                        <p>Es la forma más básica y se utiliza en situaciones donde no se requiere una alta seguridad. Por ejemplo, una firma digitalizada en un correo electrónico.</p>
+                        <h6>2. Firma Electrónica Avanzada</h6>
+                        <p>Esta firma permite identificar al firmante de manera única y garantiza la integridad del documento. Requiere un certificado digital emitido por una autoridad confiable.</p>
+                        <h6>3. Firma Electrónica Cualificada</h6>
+                        <p>Es el tipo más seguro y tiene la misma validez legal que una firma manuscrita. Se basa en un certificado cualificado y un dispositivo de creación de firmas cualificado.</p>
+                        <p>Seleccionar el tipo adecuado depende del nivel de seguridad y legalidad que necesites para tu contrato.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Consideraciones al Firmar Electrónicamente -->
+        <div class="modal fade" id="consideracionesModal" tabindex="-1" aria-labelledby="consideracionesModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="consideracionesModalLabel">Consideraciones al Firmar Electrónicamente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: justify;">
+                        <p>Cuando firmes un contrato electrónicamente, es crucial que consideres los siguientes aspectos:</p>
+                        <ul>
+                            <li><strong>Verificar la Identidad del Firmante:</strong> Asegúrate de que la persona que firma es quien dice ser. Esto es vital para la validez del contrato.</li>
+                            <li><strong>Comprobar la Integridad del Documento:</strong> Verifica que el documento no ha sido alterado después de la firma.</li>
+                            <li><strong>Usar Certificados Confiables:</strong> Los certificados digitales deben ser emitidos por una autoridad reconocida para garantizar la seguridad de la firma.</li>
+                            <li><strong>Cumplir con la Legislación:</strong> Asegúrate de que el contrato cumple con las leyes aplicables para evitar problemas legales en el futuro.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario para subir el contrato -->
+    <div class="card p-4">
+        <h3>Subir tu Contrato Electrónico</h3>
+        <p class="text-muted">Selecciona un archivo PDF para subirlo y proceder con la firma electrónica.</p>
+        <form method="POST" action="{{ url_for('subir_contrato') }}" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="contrato_pdf" class="form-label">Seleccionar Contrato (PDF)</label>
+                <input type="file" class="form-control" id="contrato_pdf" name="contrato_pdf" accept="application/pdf" required>
+            </div>
+            <button type="submit" class="btn btn-success">Subir y Firmar</button>
+        </form>
+    </div>
+
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+<br />
+{% for message in messages %}
+<div class="alert alert-primary alert-dismissible" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endwith %}
+</div>
+
+<!-- Scripts necesarios para tooltips y modals -->
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+{% endblock %}

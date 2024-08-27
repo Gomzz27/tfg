@@ -1,0 +1,35 @@
+{% extends './base.html' %} 
+<!-- esto quiere decir que reutilizamos la plantilla base.html -->
+<!-- los blocks son para contenido cambiante (jinja2) -->
+{% block customCSS %} 
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/notificaciones.css')}}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2 class="mb-4">Mis Notificaciones</h2>
+    <main>
+      {% if not notificaciones %}
+        <div class="alert alert-info" role="alert">
+          No hay notificaciones pendientes.
+        </div>
+      {% else %}
+      <form method="post" action="{{ url_for('limpiar_notificaciones') }}">
+        <button type="submit" class="btn btn-danger mb-3">Limpiar Notificaciones</button>
+      </form>
+        <ul class="list-group">
+          {% for notificacion in notificaciones %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{{ url_for('leer_notificacion', notificacion_id=notificacion[0]) }}" class="text-decoration-none">
+                Respuesta a tu publicación
+              </a>
+              {% if not notificacion[3] %}
+                <span class="badge bg-danger rounded-pill">Nueva</span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </main>
+  </div>
+{% endblock %}

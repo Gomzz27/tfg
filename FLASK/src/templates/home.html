@@ -1,0 +1,88 @@
+{% extends './base.html' %}
+<!-- Reutilizamos la plantilla base.html -->
+
+{% block title %}Home{% endblock %}
+
+{% block customCSS %}  
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Bienvenido, {{ current_user.fullname }}!</h1>
+        <p class="lead">Explora nuestras secciones y conoce más sobre nosotros.</p>
+    </div>
+
+    <!-- Video embebido con modal -->
+    <div class="text-center mb-5">
+        <h2>Conoce más sobre nosotros</h2>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#videoModal">
+            Ver Video
+        </button>
+    </div>
+
+    <!-- Modal para el video -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Video Introductorio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <video controls class="w-100">
+                        <source src="{{ url_for('static', filename='videos/intro.mp4') }}" type="video/mp4">
+                        Tu navegador no soporta la reproducción de videos.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secciones de la web -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Acerca de la Ley</h3>
+                    <p class="card-text">Conoce la ley y cada uno de sus artículos.</p>
+                    <a href="{{ url_for('ley') }}" class="btn btn-outline-primary">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Firma</h3>
+                    <p class="card-text">Aprende qué debes tener en cuenta al firmar un contrato electrónico. ¡Firma tus contratos con nosotros!</p>
+                    <a href="{{ url_for('simularcontrato') }}" class="btn btn-outline-primary">Descubrir</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Noticias</h3>
+                    <p class="card-text">Mantente al día con las últimas noticias y artículos sobre la ley.</p>
+                    <a href="{{ url_for('noticias') }}" class="btn btn-outline-primary">Visitar Blog</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Foro</h3>
+                    <p class="card-text">¿Tienes alguna pregunta? No dudes en preguntar a la comunidad. Además, puedes compartir tus conocimientos respondiendo a las publicaciones.</p>
+                    <a href="{{ url_for('foro') }}" class="btn btn-outline-primary">Apoya a la comunidad</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

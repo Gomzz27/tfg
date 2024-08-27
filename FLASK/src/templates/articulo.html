@@ -1,0 +1,22 @@
+{% extends './base.html' %} 
+{% block body %}
+<div class="container">
+    <h1 class="my-4" >{{ articulo[1] }}</h1>
+    <p class="text-start" style="white-space: pre-line;">{{ articulo[2] }}</p>
+    <button class="btn btn-info my-4" id="mostrar-resumen-btn">Mostrar Resumen</button>
+    <p class="text-start" id="resumen-texto" style="white-space: pre-line; display: none;">{{ articulo[3] }}</p>
+    <a href="{{ url_for('ley') }}" class="btn btn-secondary">Volver</a>
+</div>
+
+<script>
+    document.getElementById('mostrar-resumen-btn').addEventListener('click', function() {
+        var resumen = document.getElementById('resumen-texto');
+        if (resumen.style.display === 'none' || resumen.style.display === '') {
+            resumen.style.display = 'block';
+        } else {
+            resumen.style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock %}

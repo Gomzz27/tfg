@@ -1,0 +1,28 @@
+{% extends './base.html' %} 
+
+{% block body %}
+<div class="container">
+    <h1>Administrar Usuarios</h1>
+    
+    <form method="post" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" name="query" placeholder="Buscar usuarios">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+    
+    <ul class="list-group">
+        {% for usuario in usuarios %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="text-align: justify;">
+                <div>
+                    <h5>{{ usuario.username }}</h5>
+                    <p class="mb-0">{{ usuario.fullname }} - {{ usuario.email }}</p>
+                </div>
+                <form action="{{ url_for('eliminar_usuario', user_id=usuario.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

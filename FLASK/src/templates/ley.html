@@ -1,0 +1,58 @@
+{% extends './base.html' %} 
+
+{% block customCSS %} 
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/ley.css')}}">
+{% endblock %}
+
+{% block body %}
+<h1>Ley de Servicios de la Sociedad de la Información y Comercio Electrónico</h1>
+<div class="container my-5 p-4 bg-light rounded shadow-sm">
+    <div class="ley-info">
+        <h3 class="ley-titulo">Objetivo de la Ley</h3>
+        <p class="ley-texto">
+            La Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico, tiene como objetivo regular el funcionamiento de los servicios en línea y las transacciones electrónicas. Esta ley abarca las obligaciones de los proveedores de servicios en internet, incluidos aquellos que actúan como intermediarios. Se establece un marco legal para el comercio electrónico, garantizando la seguridad y confianza en las transacciones en línea.
+        </p>
+        <h3 class="ley-titulo">Normativa Europea</h3>
+        <p class="ley-texto">
+            La normativa también contempla la incorporación de la Directiva 2000/31/CE de la Unión Europea, que aborda aspectos específicos de los servicios de la sociedad de la información, como el comercio electrónico en el mercado interior. Se promueve la convergencia con las regulaciones europeas para fomentar el desarrollo de la Sociedad de la Información en España y fortalecer la industria nacional de productos y servicios digitales.
+        </p>
+        <h3 class="ley-titulo">Coordinación y Sanciones</h3>
+        <p class="ley-texto">
+            Además, se establecen mecanismos para facilitar la coordinación entre los diferentes organismos públicos y garantizar la coherencia en la información proporcionada a los usuarios. Se prevé un régimen sancionador proporcional pero efectivo para disuadir a los proveedores de servicios de incumplir con lo dispuesto en la ley.
+        </p>
+        <h3 class="ley-titulo">Resumen</h3>
+        <p class="ley-texto">
+            En resumen, la Ley 34/2002 busca regular y promover el uso seguro y eficiente de los servicios en línea, así como impulsar el desarrollo de la economía digital en España en línea con las directrices de la Unión Europea.
+        </p>
+        <div class="mt-4">
+            <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2002-13758" target="_blank" class="custom-link"> 🔗 Ver Ley Oficial en BOE</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="my-4">Buscar Artículos</h1>
+    <form method="POST" action="{{ url_for('ley') }}">
+        <div class="mb-3">
+            <input type="text" class="form-control" id="query" name="query" value="{{ query }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <h2 class="my-4">Resultados de la Búsqueda</h2>
+    {% if resultados %}
+        <div class="resultados-container list-group">
+            {% for articulo in resultados %}
+                <div class="list-group-item">
+                    <h3>{{ articulo[1] }}</h3>
+                    <p class="text-start">{{ articulo[2][:350] }}...</p>
+                    <a href="{{ url_for('ver_articulo', articulo_id=articulo[0]) }}" class="btn btn-primary">Leer más</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No se encontraron artículos.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

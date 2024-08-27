@@ -1,0 +1,88 @@
+{% extends './base.html' %} 
+<!-- esto quiere decir que reutilizamos la plantilla base.html -->
+<!-- los blocks son para contenido cambiante (jinja2) -->
+{% block customCSS %} 
+<link rel="stylesheet" href=" {{ url_for('static', filename='css/foro.css')}}">
+{% endblock %}
+
+{% block body %}
+<h1>Bienvenido al foro</h1>
+<main class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <div class="lh-1">
+      <h1 class="h6 mb-0 text-white ">E-Contracting Foro</h1>
+      <small>Consulta o realiza tus preguntas!</small>
+    </div>
+    <button type="button" class="btn btn-light ms-auto" data-bs-toggle="modal" data-bs-target="#newPostModal">
+        Nueva Publicación
+    </button>
+</div>
+
+
+<!-- Formulario de búsqueda -->
+<form method="post" action="{{ url_for('foro') }}" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="query" class="form-control" placeholder="Buscar publicaciones">
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+  
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+<br />
+{% for message in messages %}
+<div class="alert alert-primary alert-dismissible" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endwith %}
+
+<!-- Modal -->
+<div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newPostModalLabel">Nueva Publicación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newPostForm" method="post" action="/foro">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Contenido</label>
+                        <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Publicaciones</h2>
+<ul class="list-group d-flex justify-content-between">
+  {% for publicacion in publicaciones %}
+  <li class="list-group-item d-flex justify-content-between">
+    <a href="{{ url_for('ver_publicacion', post_id=publicacion[0]) }}">
+      <h5>{{ publicacion[1] }}</h5>
+    </a>    <p class="mb-0 text-muted d-flex justify-content-between">por {{ publicacion[2] }}</p>
+    {% if current_user.is_admin %}
+    <form action="{{ url_for('eliminar_post', post_id=publicacion[0]) }}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+    </form>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+</div>
+</main>
+
+{% endblock %}

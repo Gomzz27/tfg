@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Revisión del Contrato{% endblock %}
+{% block body %}
+<div class="container">
+    <h1 class="mb-4">Revisión del Contrato</h1>
+    <div class="card mb-3">
+        <div class="card-header">Detalles del Cliente</div>
+        <div class="card-body">
+            <h5 class="card-title">Nombre del Cliente</h5>
+            <p class="card-text">{{ client_name }}</p>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">DNI del Cliente</div>
+        <div class="card-body">
+            <p class="card-text">{{ dni }}</p>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">Descripción del Servicio</div>
+        <div class="card-body">
+            <p class="card-text">{{ service_description }}</p>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">Términos del Contrato</div>
+        <div class="card-body">
+            <p class="card-text">{{ contract_terms }}</p>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">Firma Electrónica del Cliente</div>
+        <div class="card-body">
+            {% if signature_type == 'manuscript' %}
+                <img src="{{ client_signature }}" alt="Firma del Cliente">
+            {% else %}
+                <p>Firma Digital (DocuSign)</p>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST" action="{{ url_for('generate_contract_pdf') }}">
+        <input type="hidden" name="client_name" value="{{ client_name }}">
+        <input type="hidden" name="dni" value="{{ dni }}">
+        <input type="hidden" name="service_description" value="{{ service_description }}">
+        <input type="hidden" name="contract_terms" value="{{ contract_terms }}">
+        <input type="hidden" name="signature_type" value="{{ signature_type }}">
+        <input type="hidden" name="client_signature" value="{{ client_signature }}">
+        <button type="submit" class="btn btn-success">Generar PDF</button>
+    </form>
+</div>
+{% endblock %}

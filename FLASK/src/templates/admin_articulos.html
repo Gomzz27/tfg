@@ -1,0 +1,28 @@
+{% extends './base.html' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Gestión de Artículos</h2>
+    <form method="GET" action="{{ url_for('admin_articulos') }}">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar artículos" name="query" value="{{ query }}">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+    <a href="{{ url_for('nuevo_articulo') }}" class="btn btn-primary">Nuevo Artículo</a>
+    <ul class="list-group mt-3">
+        {% for articulo in articulos %}
+            <li class="list-group-item">
+                <h5>{{ articulo[1] }}</h5>
+                <p style="text-align: justify;">{{ articulo[3] }}</p>
+                <div class="mt-2">
+                    <a href="{{ url_for('editar_articulo', articulo_id=articulo[0]) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_articulo', articulo_id=articulo[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

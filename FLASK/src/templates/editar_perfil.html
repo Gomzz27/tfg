@@ -1,0 +1,27 @@
+{% extends './base.html' %}
+
+{% block body %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
+<div class="perfil-container container mt-4">
+    <h2 class="mb-4">Editar Información Personal</h2>
+    <form method="post" action="{{ url_for('editar_perfil') }}">
+        <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="fullname" class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" id="fullname" name="fullname" value="{{ current_user.fullname }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{{ url_for('perfil') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

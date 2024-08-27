@@ -1,0 +1,26 @@
+{% extends './base.html' %} 
+{% block body %}
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Editar Noticia</h1>
+        <form action="{{ url_for('editar_noticia', noticia_id=noticia.id) }}" method="post">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" name="titulo" value="{{ noticia.titulo }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="contenido" class="form-label">Contenido</label>
+                <textarea class="form-control" id="contenido" name="contenido" rows="5" required>{{ noticia.contenido }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="link" class="form-label">Enlace</label>
+                <input type="url" class="form-control" id="link" name="link" value="{{ noticia.link }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{{ url_for('admin_noticias') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    {% endblock %}
